@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adwait Adbe | ECE Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg: #0a0a0f;
+  --bg2: #0f0f18;
+  --surface: #14141f;
+  --surface2: #1c1c2e;
+  --border: rgba(255,255,255,0.07);
+  --accent: #6ee7f7;
+  --accent2: #a78bfa;
+  --accent3: #f472b6;
+  --text: #e8e8f0;
+  --muted: #6b7280;
+  --glow: rgba(110,231,247,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CUSTOM CURSOR */
+.cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1.5px solid var(--accent2);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: all 0.18s ease;
+  mix-blend-mode: screen;
+}
+
+/* BACKGROUND GRID */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(110,231,247,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110,231,247,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* NOISE TEXTURE */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* BLOBS */
+.blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+  animation: drift 20s ease-in-out infinite;
+}
+.blob1 { width: 600px; height: 600px; background: var(--accent2); top: -200px; left: -100px; animation-delay: 0s; }
+.blob2 { width: 500px; height: 500px; background: var(--accent); bottom: -100px; right: -100px; animation-delay: -7s; }
+.blob3 { width: 400px; height: 400px; background: var(--accent3); top: 50%; left: 40%; animation-delay: -14s; }
+
+@keyframes drift {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(60px, -40px) scale(1.05); }
+  66% { transform: translate(-40px, 60px) scale(0.95); }
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 6%;
+  background: rgba(10,10,15,0.75);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+
+.nav-logo span {
+  color: var(--accent2);
+  font-style: italic;
+}
+
+.nav-links { display: flex; gap: 32px; }
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { width: 100%; }
+
+/* HERO */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 6%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+
+.hero-eyebrow::before { content: '// '; color: var(--muted); }
+
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(54px, 9vw, 120px);
+  line-height: 0.9;
+  letter-spacing: -2px;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.4s forwards;
+}
+
+.hero h1 .line1 { display: block; color: var(--text); }
+.hero h1 .line2 { display: block; color: transparent; -webkit-text-stroke: 1.5px var(--accent2); }
+.hero h1 .line3 { display: block; color: var(--accent); font-style: italic; }
+
+.hero-desc {
+  max-width: 540px;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.6s forwards;
+}
+
+.hero-desc strong { color: var(--text); font-weight: 600; }
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.8s forwards;
+}
+
+.btn-primary {
+  padding: 14px 32px;
+  background: var(--accent);
+  color: #0a0a0f;
+  border: none;
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: none;
+  transition: all 0.25s;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+.btn-primary:hover { background: #fff; transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--accent2); }
+
+.btn-secondary {
+  padding: 14px 32px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: none;
+  transition: all 0.25s;
+}
+
+.btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); }
+
+.hero-stats {
+  position: absolute;
+  right: 6%;
+  bottom: 12%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  opacity: 0;
+  animation: fadeLeft 0.8s ease 1s forwards;
+}
+
+.stat {
+  text-align: right;
+}
+
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 52px;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 1.4s forwards;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.1); }
+}
+
+/* SECTION WRAPPER */
+section {
+  position: relative;
+  z-index: 1;
+  padding: 100px 6%;
+}
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.section-label::before { content: '// '; color: var(--muted); }
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(38px, 5vw, 62px);
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 60px;
+  color: var(--text);
+}
+
+.section-title em {
+  font-style: italic;
+  color: var(--accent2);
+}
+
+/* DIVIDER */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+  position: relative;
+  z-index: 1;
+}
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-text p {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.about-text p strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.about-highlight {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 24px 28px;
+  border-radius: 2px;
+  margin-top: 32px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.about-interests {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.interest-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 28px;
+  border-radius: 4px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.interest-item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--glow), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.interest-item:hover { border-color: rgba(110,231,247,0.25); transform: translateX(4px); }
+.interest-item:hover::before { opacity: 1; }
+
+.interest-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.interest-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.interest-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* EDUCATION */
+.education-timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+.education-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+}
+
+.edu-item {
+  position: relative;
+  padding: 0 0 56px 36px;
+}
+
+.edu-item::before {
+  content: '';
+  position: absolute;
+  left: -5px; top: 8px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 16px var(--accent);
+}
+
+.edu-item:last-child { padding-bottom: 0; }
+
+.edu-period {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.edu-school {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.edu-degree {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.edu-badge {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 12px;
+  background: rgba(110,231,247,0.08);
+  border: 1px solid rgba(110,231,247,0.2);
+  border-radius: 20px;
+  font-size: 12px;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* EXPERIENCE */
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 28px;
+}
+
+.exp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 36px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s;
+}
+
+.exp-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--accent), var(--accent2));
+  transform: scaleX(0);
+  transition: transform 0.35s;
+}
+
+.exp-card:hover { border-color: rgba(110,231,247,0.2); transform: translateY(-4px); }
+.exp-card:hover::after { transform: scaleX(1); }
+
+.exp-number {
+  font-family: 'DM Serif Display', serif;
+  font-size: 80px;
+  line-height: 0.8;
+  color: rgba(110,231,247,0.05);
+  position: absolute;
+  top: 16px; right: 20px;
+  letter-spacing: -4px;
+}
+
+.exp-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(167,139,250,0.1);
+  border: 1px solid rgba(167,139,250,0.2);
+  border-radius: 20px;
+  font-size: 11px;
+  color: var(--accent2);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+}
+
+.exp-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.exp-desc {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.exp-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.exp-skill-tag {
+  padding: 4px 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* SKILLS */
+.skills-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.skills-category {
+  margin-bottom: 40px;
+}
+
+.skills-cat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-bar-item {
+  margin-bottom: 20px;
+}
+
+.skill-bar-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.skill-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.skill-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.skill-track {
+  height: 3px;
+  background: var(--surface2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.skill-fill {
+  height: 100%;
+  background: linear-gradient(to right, var(--accent), var(--accent2));
+  border-radius: 2px;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-fill.animate { transform: scaleX(1); }
+
+.skills-tags-section {
+  margin-top: 8px;
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-chip {
+  padding: 10px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  transition: all 0.25s;
+  cursor: none;
+}
+
+.skill-chip:hover {
+  background: rgba(110,231,247,0.08);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* CERTIFICATIONS */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.cert-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 32px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.cert-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--accent3), var(--accent2));
+}
+
+.cert-card:hover { border-color: rgba(244,114,182,0.25); transform: translateY(-4px); }
+
+.cert-icon {
+  width: 52px; height: 52px;
+  background: rgba(167,139,250,0.1);
+  border: 1px solid rgba(167,139,250,0.2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.cert-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.cert-issuer {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent2);
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+
+.cert-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* PROJECTS */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: all 0.35s;
+  position: relative;
+}
+
+.project-card:hover { border-color: rgba(110,231,247,0.2); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+
+.project-header {
+  padding: 28px 28px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.project-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, rgba(110,231,247,0.15), rgba(167,139,250,0.1));
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.project-arrow {
+  color: var(--muted);
+  font-size: 20px;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.project-card:hover .project-arrow { transform: translate(4px, -4px); color: var(--accent); }
+
+.project-body {
+  padding: 20px 28px 28px;
+}
+
+.project-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.project-desc {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-tag {
+  padding: 4px 10px;
+  background: rgba(110,231,247,0.06);
+  border: 1px solid rgba(110,231,247,0.15);
+  border-radius: 2px;
+  font-size: 11px;
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.project-highlight {
+  grid-column: span 2;
+  background: linear-gradient(135deg, var(--surface), var(--surface2));
+  border: 1px solid rgba(110,231,247,0.12);
+}
+
+/* CONTACT */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-intro {
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--muted);
+  margin-bottom: 40px;
+}
+
+.contact-intro strong { color: var(--text); }
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.25s;
+}
+
+.contact-link:hover {
+  border-color: var(--accent);
+  background: rgba(110,231,247,0.05);
+  transform: translateX(6px);
+}
+
+.contact-link-icon {
+  width: 44px; height: 44px;
+  background: rgba(110,231,247,0.08);
+  border: 1px solid rgba(110,231,247,0.15);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.contact-link-body {}
+.contact-link-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.contact-link-value {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.contact-right {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 40px;
+  border-radius: 4px;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 14px 18px;
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-input:focus { border-color: var(--accent); }
+
+textarea.form-input { resize: vertical; min-height: 120px; }
+
+/* FOOTER */
+footer {
+  position: relative;
+  z-index: 1;
+  padding: 40px 6%;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--accent);
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.footer-copy span { color: var(--accent2); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(28px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .about-grid, .skills-wrapper, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-stats { display: none; }
+  .project-highlight { grid-column: span 1; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Adwait <span>Adbe</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#education">Education</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#certifications">Certs</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-eyebrow">Electronics &amp; Communication Engineering</p>
+  <h1>
+    <span class="line1">Adwait</span>
+    <span class="line2">Adbe</span>
+    <span class="line3">Engineer.</span>
+  </h1>
+  <p class="hero-desc">
+    <strong>3rd Year ECE student</strong> at Pandit Deendayal Energy University — diving deep into embedded systems, communication technologies, and the fascinating intersection of hardware and software.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary">View My Work</a>
+    <a href="#contact" class="btn-secondary">Get In Touch</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">3+</div>
+      <div class="stat-label">Projects Built</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Technical Skills</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Certifications</div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label reveal">Who I Am</p>
+  <h2 class="section-title reveal">About <em>Me</em></h2>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm a <strong>third-year Electronics and Communication Engineering</strong> student at Pandit Deendayal Energy University (PDEU), passionate about understanding how modern electronic systems are designed, built, and deployed.
+      </p>
+      <p>
+        My academic journey has given me a strong grounding in both theoretical and practical aspects of electronics. From analyzing circuits on paper to actually <strong>building and debugging hardware</strong>, I enjoy the full cycle of bringing an engineering idea to life.
+      </p>
+      <p>
+        My interests span <strong>embedded systems, signal processing, and communication technologies</strong>. I find it fascinating how a combination of carefully designed hardware and efficient software can enable complex real-world systems — from wireless communications to microprocessor-controlled machinery.
+      </p>
+      <p>
+        Outside the lab, I'm an enthusiastic follower of <strong>computer hardware and gaming technologies</strong>. Gaming keeps me tuned into high-performance computing trends and hardware evolution. I also have a competitive spirit shaped by years of sports — I won a table tennis match at the high school level and still enjoy the focus and discipline that competitive play demands.
+      </p>
+      <div class="about-highlight">
+        "I believe good engineering is equal parts curiosity, discipline, and the willingness to get your hands dirty — literally."
+      </div>
+    </div>
+
+    <div class="about-interests reveal">
+      <div class="interest-item">
+        <div class="interest-icon">🔌</div>
+        <div class="interest-title">Embedded Systems</div>
+        <div class="interest-desc">Fascinated by the intersection of hardware and software — from 8086 assembly to modern microcontrollers that power the world around us.</div>
+      </div>
+      <div class="interest-item">
+        <div class="interest-icon">📡</div>
+        <div class="interest-title">Communication Systems</div>
+        <div class="interest-desc">Studying the principles that enable wireless and optical communication, from FM modulation to Free Space Optical links.</div>
+      </div>
+      <div class="interest-item">
+        <div class="interest-icon">🎮</div>
+        <div class="interest-title">Gaming & Hardware</div>
+        <div class="interest-desc">Gaming is both a hobby and a lens to track computing trends — GPUs, latency, performance optimization — it all connects to ECE.</div>
+      </div>
+      <div class="interest-item">
+        <div class="interest-icon">🏓</div>
+        <div class="interest-title">Sports & Competition</div>
+        <div class="interest-desc">Table tennis champion at the high school level. Competitive sport builds the discipline and composure that carries into technical challenges.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label reveal">Academic Background</p>
+  <h2 class="section-title reveal">My <em>Education</em></h2>
+
+  <div class="education-timeline">
+    <div class="edu-item reveal">
+      <div class="edu-period">2022 — Present</div>
+      <div class="edu-school">Pandit Deendayal Energy University</div>
+      <div class="edu-degree">
+        Bachelor of Technology — Electronics and Communication Engineering<br>
+        Currently pursuing 3rd Year, gaining hands-on experience with analog & digital circuits, embedded programming, communication systems, and PCB design.
+      </div>
+      <span class="edu-badge">Currently Enrolled · PDEU, Gandhinagar</span>
+    </div>
+
+    <div class="edu-item reveal">
+      <div class="edu-period">Higher Secondary</div>
+      <div class="edu-school">Amity International School, Bharuch</div>
+      <div class="edu-degree">
+        Higher Secondary Education — Classes 11th &amp; 12th (Science Stream)<br>
+        Focused on Physics, Chemistry, Mathematics and Computer Science, building the analytical foundation for engineering study.
+      </div>
+      <span class="edu-badge">Science Stream · Bharuch, Gujarat</span>
+    </div>
+
+    <div class="edu-item reveal">
+      <div class="edu-period">Secondary Education</div>
+      <div class="edu-school">Delhi Public School, Bharuch</div>
+      <div class="edu-degree">
+        Secondary Education — Classes 8th through 10th (CBSE Board)<br>
+        Developed strong fundamentals in sciences and mathematics while participating in extracurricular activities including sports.
+      </div>
+      <span class="edu-badge">CBSE · Bharuch, Gujarat</span>
+    </div>
+
+    <div class="edu-item reveal">
+      <div class="edu-period">Primary Education</div>
+      <div class="edu-school">Aditya Birla Public School, Kosamba</div>
+      <div class="edu-degree">
+        Primary Education — Nursery through Class 7th<br>
+        Early schooling that nurtured curiosity, collaborative learning, and an enthusiasm for science and technology.
+      </div>
+      <span class="edu-badge">Primary · Kosamba, Gujarat</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label reveal">What I've Done</p>
+  <h2 class="section-title reveal">My <em>Experience</em></h2>
+
+  <div class="exp-grid">
+    <div class="exp-card reveal">
+      <div class="exp-number">01</div>
+      <div class="exp-tag">Internship</div>
+      <div class="exp-title">CSSI Intern</div>
+      <div class="exp-desc">
+        Worked as a CSSI (Community Service &amp; Social Initiative) intern during the summer break following my second semester. The program focused on contributing meaningfully to social development initiatives, working alongside teams to address real community needs. The experience strengthened my ability to communicate clearly, collaborate under pressure, and lead small groups toward defined goals — skills that translate directly into professional engineering environments.
+      </div>
+      <div class="exp-skills">
+        <span class="exp-skill-tag">Leadership</span>
+        <span class="exp-skill-tag">Teamwork</span>
+        <span class="exp-skill-tag">Communication</span>
+        <span class="exp-skill-tag">Problem Solving</span>
+      </div>
+    </div>
+
+    <div class="exp-card reveal">
+      <div class="exp-number">02</div>
+      <div class="exp-tag">Club Leadership</div>
+      <div class="exp-title">Technical Head — Respawn Gaming Club, PDEU</div>
+      <div class="exp-desc">
+        Currently serving as the Technical Head of the Respawn Gaming Club at Pandit Deendayal Energy University — one of the most active student clubs on campus. I oversee all technical aspects of the club's operations: setting up network infrastructure for LAN tournaments, managing hardware configurations, coordinating with teams across different platforms, and ensuring all equipment is running optimally during events. The role demands both technical precision and event coordination, giving me practical project management experience alongside my academic studies.
+      </div>
+      <div class="exp-skills">
+        <span class="exp-skill-tag">Event Management</span>
+        <span class="exp-skill-tag">Network Setup</span>
+        <span class="exp-skill-tag">Hardware Config</span>
+        <span class="exp-skill-tag">Team Coordination</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label reveal">My Toolkit</p>
+  <h2 class="section-title reveal">Technical <em>Skills</em></h2>
+
+  <div class="skills-wrapper">
+    <div>
+      <div class="skills-category">
+        <div class="skills-cat-label">Programming &amp; Software</div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">Python</span><span class="skill-pct">78%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.78"></div></div>
+        </div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">Arduino Programming</span><span class="skill-pct">82%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.82"></div></div>
+        </div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">8086 Assembly Language</span><span class="skill-pct">70%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.70"></div></div>
+        </div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">MATLAB</span><span class="skill-pct">65%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.65"></div></div>
+        </div>
+      </div>
+
+      <div class="skills-category">
+        <div class="skills-cat-label">Electronics &amp; Hardware</div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">Analog Electronics</span><span class="skill-pct">80%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.80"></div></div>
+        </div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">Digital Electronics</span><span class="skill-pct">82%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.82"></div></div>
+        </div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">Embedded Systems</span><span class="skill-pct">75%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.75"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="skills-category">
+        <div class="skills-cat-label">Domain Knowledge</div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">Communication Systems</span><span class="skill-pct">75%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.75"></div></div>
+        </div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">Control Systems</span><span class="skill-pct">68%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.68"></div></div>
+        </div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">PCB Design (CAD)</span><span class="skill-pct">65%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.65"></div></div>
+        </div>
+        <div class="skill-bar-item reveal">
+          <div class="skill-bar-top"><span class="skill-name">Signal Processing</span><span class="skill-pct">70%</span></div>
+          <div class="skill-track"><div class="skill-fill" style="--w:0.70"></div></div>
+        </div>
+      </div>
+
+      <div class="skills-category">
+        <div class="skills-cat-label">Other Competencies</div>
+        <div class="skills-tags-section reveal">
+          <div class="skills-tags">
+            <span class="skill-chip">Circuit Analysis</span>
+            <span class="skill-chip">Oscilloscope Use</span>
+            <span class="skill-chip">Soldering</span>
+            <span class="skill-chip">Hardware Debugging</span>
+            <span class="skill-chip">LAN Setup</span>
+            <span class="skill-chip">Team Leadership</span>
+            <span class="skill-chip">Event Management</span>
+            <span class="skill-chip">Technical Writing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <p class="section-label reveal">Credentials</p>
+  <h2 class="section-title reveal">My <em>Certifications</em></h2>
+
+  <div class="cert-grid">
+    <div class="cert-card reveal">
+      <div class="cert-icon">📊</div>
+      <div class="cert-title">MATLAB Onramp &amp; Courses</div>
+      <div class="cert-issuer">MathWorks · Online</div>
+      <div class="cert-desc">
+        Completed structured MATLAB coursework covering numerical computation, matrix operations, data visualization, and engineering simulations. Applied MATLAB for signal analysis exercises and lab work in Communication and Control Systems courses at PDEU.
+      </div>
+    </div>
+
+    <div class="cert-card reveal">
+      <div class="cert-icon">🖥️</div>
+      <div class="cert-title">Electronic Systems Design</div>
+      <div class="cert-issuer">NPTEL · IIT / NIT Network</div>
+      <div class="cert-desc">
+        Completed the NPTEL course on Electronic Systems Design with a hands-on focus on analog and digital circuits, PCB layout and fabrication workflows, and CAD software tools for professional electronics design. Covers the full pipeline from schematic to physical board.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label reveal">What I've Built</p>
+  <h2 class="section-title reveal">My <em>Projects</em></h2>
+
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-icon">📻</div>
+        <div class="project-arrow">↗</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">FM Radio Receiver</div>
+        <div class="project-desc">
+          Designed and built a functional FM radio receiver capable of demodulating frequency modulated signals in the 88–108 MHz broadcast band. The project involved understanding the full RF chain: antenna, bandpass filter, mixer/local oscillator, IF amplifier, FM discriminator, and audio output stage. Component selection, tuning, and troubleshooting provided deep practical insight into analog RF circuit behaviour.
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">Analog RF</span>
+          <span class="tech-tag">FM Demodulation</span>
+          <span class="tech-tag">LC Circuits</span>
+          <span class="tech-tag">Oscilloscope</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-icon">⚙️</div>
+        <div class="project-arrow">↗</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Stepper Motor Control via 8086</div>
+        <div class="project-desc">
+          Programmed an Intel 8086 microprocessor in assembly language to control the speed and rotational direction of a stepper motor. Implemented timing loops, port I/O operations, and phase sequencing to drive the motor with precision. The project deepened understanding of low-level hardware control, interrupt handling, and the interface between processor outputs and real electromechanical systems.
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">8086 Assembly</span>
+          <span class="tech-tag">Microprocessor I/O</span>
+          <span class="tech-tag">Motor Control</span>
+          <span class="tech-tag">Embedded Logic</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-icon">💡</div>
+        <div class="project-arrow">↗</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Free Space Optical Communication Link</div>
+        <div class="project-desc">
+          Designed and demonstrated a working Free Space Optical (FSO) communication link that transmits audio signals through modulated light over open air. An LED transmitter modulates the signal while a photodetector receiver demodulates it. The project explored optical signal propagation, beam alignment, noise effects, and the practical challenges of atmospheric optical channels — all core to modern FSO and LiDAR systems.
+        </div>
+        <div class="project-tech">
+          <span class="tech-tag">Optical Communication</span>
+          <span class="tech-tag">LED/Photodetector</span>
+          <span class="tech-tag">Signal Modulation</span>
+          <span class="tech-tag">Analog Circuits</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label reveal">Let's Connect</p>
+  <h2 class="section-title reveal">Get In <em>Touch</em></h2>
+
+  <div class="contact-grid">
+    <div>
+      <p class="contact-intro reveal">
+        I'm always open to <strong>internships, collaborative projects, and conversations</strong> about electronics, embedded systems, or hardware engineering. Whether you have an opportunity or just want to talk tech, feel free to reach out.
+      </p>
+
+      <div class="contact-links">
+        <a href="mailto:adwaitadbe47@gmail.com" class="contact-link reveal">
+          <div class="contact-link-icon">✉️</div>
+          <div class="contact-link-body">
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-value">adwaitadbe47@gmail.com</div>
+          </div>
+        </a>
+
+        <a href="tel:+916357167228" class="contact-link reveal">
+          <div class="contact-link-icon">📞</div>
+          <div class="contact-link-body">
+            <div class="contact-link-label">Phone</div>
+            <div class="contact-link-value">+91 63571 67228</div>
+          </div>
+        </a>
+
+        <a href="#" class="contact-link reveal">
+          <div class="contact-link-icon">🏫</div>
+          <div class="contact-link-body">
+            <div class="contact-link-label">University</div>
+            <div class="contact-link-value">PDEU, Gandhinagar, Gujarat</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-right reveal">
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" placeholder="e.g. Rahul Sharma">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Subject</label>
+        <input type="text" class="form-input" placeholder="Internship opportunity / Project collaboration">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Message</label>
+        <textarea class="form-input" placeholder="Tell me about your project or opportunity..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;text-align:center;display:block;cursor:none;" onclick="alert('Message sent! (Demo — connect a backend to enable this)')">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Adwait Adbe</div>
+  <div class="footer-copy">© <span>2026</span> · ECE Engineer · PDEU</div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 5 + 'px';
+  cursor.style.top = my - 5 + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx - 18) * 0.12;
+  ry += (my - ry - 18) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+// Hover effects on cursor
+document.querySelectorAll('a, button, .skill-chip, .project-card, .exp-card, .cert-card, .contact-link').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'scale(2.5)';
+    ring.style.transform = 'scale(1.5)';
+    ring.style.borderColor = 'var(--accent3)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'scale(1)';
+    ring.style.transform = 'scale(1)';
+    ring.style.borderColor = 'var(--accent2)';
+  });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+
+      // Animate skill bars
+      entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+        const w = bar.style.getPropertyValue('--w') || 0;
+        bar.style.transform = `scaleX(${w})`;
+      });
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Also trigger skill bars when their parent is revealed
+document.querySelectorAll('.skill-bar-item.reveal').forEach(item => {
+  const bar = item.querySelector('.skill-fill');
+  if (!bar) return;
+  const w = parseFloat(bar.style.getPropertyValue('--w') || '0');
+  const itemObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        setTimeout(() => { bar.style.transform = `scaleX(${w})`; }, 100);
+        itemObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  itemObserver.observe(item);
+});
+</script>
+</body>
+</html>
